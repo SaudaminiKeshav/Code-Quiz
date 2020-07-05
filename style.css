@@ -1,56 +1,26 @@
-/* *{
-    background-color: black;
-} */
+*{
+    background-color: #111537;
+}
 
-#homeDiv{
-    top: 50px;
-    left: 20px;
-    height: 100px;
-    width: 20px;
+.card-body{
     background-color: white;
+    color: black;
+    min-height: 500px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
-/* Header style  */
-header{
-    background-color: black;
-}
-
-/* Bg color for header nav bar  */
-.container{
+.card-title{
+    background-color: white;
     color: black;
 }
-
+.card-text{
+    background-color: white;
+    color: black;
+}
+.PageName{
+    color: white;
+}
 /* Text align for about me content  */
 .justify-content-center{
     text-align: center;
-}
-
-/* Addition margin between about content and footer  */
-.aboutContainer{
-    margin-bottom: 50px;
-}
-
-/* Footer container style  */
-.footerContainer{
-    min-height: 50px;
-    background-color: black;
-    padding-bottom: 10px;
-    padding-top: 5px;
-    text-align: center;
-    color: white;
-    margin-top: -100px;
-    position: fixed;
-    left: 0;
-    bottom: -5px;
-    width: 100%;
-}
-
-/* Footer content style  */
-.footer-body{
-    padding: 1px;
-    margin-top: 5px;
-}
-
-/* ContactLink color  */
-.contactLink{
-    color: #F14046;
 }
