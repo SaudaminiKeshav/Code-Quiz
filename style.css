@@ -2,25 +2,63 @@
     background-color: #111537;
 }
 
+.container{
+    text-align: center;
+    display:block;
+}
+
 .card-body{
     background-color: white;
     color: black;
     min-height: 500px;
     margin-left: 10px;
     margin-right: 10px;
+    text-align: center;
 }
+
 .card-title{
     background-color: white;
     color: black;
+    text-align: center;
+    font-weight: bold;
 }
 .card-text{
     background-color: white;
     color: black;
+    font-size: larger;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 .PageName{
     color: white;
 }
-/* Text align for about me content  */
-.justify-content-center{
+
+.rowBody{
+    background-color: white;
+}
+.colBody{
+    background-color: white;
+}
+p{
     text-align: center;
+    margin-top: 5px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+#startQuizButton{
+    background-color: #E73E48;
+    border: none;
+    color: white;
+   
+    text-decoration: none;
+   
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 20px;
+    
+    
+    padding: 14px 34px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
+   
 }
