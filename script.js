@@ -171,6 +171,10 @@ nextButton.addEventListener('click', function(){
     }else if(TotalTime > 0 && quizQuestionIndex <= 9){
         displayNextQuestion();
     }
+    if(TotalTime == 0 || TotalTime < 9){
+        nextButton.textContent = "Quiz Summary";
+        createAndDisplayQuizSummaryPage();
+    }
 })
 // End region 
 
@@ -209,13 +213,13 @@ function createAndDisplayQuizOptions(quizOption, correctOption, divCount) {
 // Region quiz options click listener 
 function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
     alertDiv.addEventListener('click', function () {
+        alertDiv.setAttribute("class", "alert alert-primary border border-primary");
+
         if (selectedOption == correctOption) {
             console.log("Correct answer");
-            alertDiv.setAttribute("class", "alert alert-success");
             ++quizQuestionIndex
         } else {
             console.log("Wrong answer");
-            alertDiv.setAttribute("class", "alert alert-danger");
             if (TotalTime> 9) {
                 TotalTime = TotalTime - 10;
             }
@@ -247,6 +251,14 @@ for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) {
 }
 }
 // End region 
+
+function createAndDisplayQuizSummaryPage(){
+    cardBody.removeChild(timerLabel);
+    cardBody.removeChild(questionPTag);
+    rowDiv.removeChild(colDiv);
+    cardBody.removeChild(rowDiv)
+    cardBody.removeChild(nextButton);
+}
 
 // if (colDiv.hasChildNodes()) {
 //     console.log(colDiv.childNodes);
