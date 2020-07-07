@@ -132,6 +132,16 @@ nextButton.textContent = "Next";
 //Parse quiz content from json
 var quizObj = JSON.parse(JSON.stringify(quizContent));
 
+// Region creating div elements to display prgress bar 
+var progressDiv = document.createElement("div");
+progressDiv.setAttribute("class", "progress");
+
+var progressBarDiv = document.createElement("div");
+progressBarDiv.setAttribute("class", "progress-bar bg-success");
+progressBarDiv.setAttribute("role", "progressbar");
+progressBarDiv.setAttribute("aria-valuemin", "0");
+progressBarDiv.setAttribute("aria-valuemax", "100");
+// End region 
 
 // Region timer 
 var TotalTime = 100;
@@ -144,8 +154,11 @@ timeCountdownValue.setAttribute("class", "timeCountdownValue");
 
 var timerFunc = setInterval(function () {
     timeCountdownValue.textContent = TotalTime;
-    if(TotalTime > 0){
+    if (TotalTime > 0) {
         --TotalTime;
+    }
+    if (TotalTime == 0 || TotalTime <= 9) {
+        nextButton.textContent = "Quiz Summary";
     }
     if (TotalTime < 0) {
         clearInterval(timerFunc);
@@ -165,13 +178,13 @@ startQuizButton.addEventListener('click', function () {
 // End region 
 
 // Next button event listener 
-nextButton.addEventListener('click', function(){
+nextButton.addEventListener('click', function () {
     if (TotalTime < 0) {
         clearInterval(timerFunc);
-    }else if(TotalTime > 0 && quizQuestionIndex <= 9){
+    } else if (TotalTime > 9) {
         displayNextQuestion();
     }
-    if(TotalTime == 0 || TotalTime < 9){
+    if (TotalTime == 0 || TotalTime <= 9) {
         nextButton.textContent = "Quiz Summary";
         createAndDisplayQuizSummaryPage();
     }
@@ -202,6 +215,7 @@ function createAndDisplayQuizOptions(quizOption, correctOption, divCount) {
     var alertDiv = document.createElement("div");
     alertDiv.setAttribute("class", "alert alert-primary");
     alertDiv.setAttribute("role", "alert");
+    alertDiv.setAttribute("style", "word-wrap:break-word;");
     alertDiv.setAttribute("id", `alertDiv${divCount}`);
     console.log(divCount);
     alertDiv.textContent = quizOption;
@@ -215,12 +229,16 @@ function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
     alertDiv.addEventListener('click', function () {
         alertDiv.setAttribute("class", "alert alert-primary border border-primary");
 
+        if (TotalTime <= 0) {
+            nextButton.textContent = "Quiz Summary";
+        }
+
         if (selectedOption == correctOption) {
             console.log("Correct answer");
             ++quizQuestionIndex
         } else {
             console.log("Wrong answer");
-            if (TotalTime> 9) {
+            if (TotalTime > 9) {
                 TotalTime = TotalTime - 10;
             }
             ++quizQuestionIndex
@@ -231,51 +249,42 @@ function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
 
 // Region display next question 
 function displayNextQuestion() {
-var optionPos0 = document.querySelector("#alertDiv0");
-var optionPos1 = document.querySelector("#alertDiv1");
-var optionPos2 = document.querySelector("#alertDiv2");
-var optionPos3 = document.querySelector("#alertDiv3");
+    var optionPos0 = document.querySelector("#alertDiv0");
+    var optionPos1 = document.querySelector("#alertDiv1");
+    var optionPos2 = document.querySelector("#alertDiv2");
+    var optionPos3 = document.querySelector("#alertDiv3");
 
-console.log(optionPos0);
-console.log(optionPos1);
-console.log(optionPos2);
-console.log(optionPos3);
+    console.log(optionPos0);
+    console.log(optionPos1);
+    console.log(optionPos2);
+    console.log(optionPos3);
 
-var optionArray = [optionPos0, optionPos1, optionPos2, optionPos3];
+    var optionArray = [optionPos0, optionPos1, optionPos2, optionPos3];
 
-questionPTag.textContent = quizObj[quizQuestionIndex].question;
-console.log(optionArray[i]);
-for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) { 
-    optionArray[i].textContent = quizObj[quizQuestionIndex].options[i];
-    optionArray[i].setAttribute("class", "alert alert-primary");
-}
+    questionPTag.textContent = quizObj[quizQuestionIndex].question;
+    console.log(optionArray[i]);
+    for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) {
+        optionArray[i].textContent = quizObj[quizQuestionIndex].options[i];
+        optionArray[i].setAttribute("class", "alert alert-primary");
+    }
 }
 // End region 
 
-function createAndDisplayQuizSummaryPage(){
+function createAndDisplayQuizSummaryPage() {
     cardBody.removeChild(timerLabel);
     cardBody.removeChild(questionPTag);
     rowDiv.removeChild(colDiv);
     cardBody.removeChild(rowDiv)
     cardBody.removeChild(nextButton);
+
+
+    progressBarDiv.setAttribute("style", "width: 45%");
+    progressBarDiv.setAttribute("aria-valuenow", "45");
+
+
+    progressBarDiv.textContent = "45%";
+
+    progressDiv.appendChild(progressBarDiv);
+    cardBody.appendChild(progressDiv);
+
 }
-
-// if (colDiv.hasChildNodes()) {
-//     console.log(colDiv.childNodes);
-
-//     // for(var i = 0; i<quizObj[quizQuestionIndex].options.length; i++){
-//     //     var alertDiv = document.querySelector(`#alertDiv${i}`);
-//     //     alertDiv.textContent = quizObj[quizQuestionIndex].options[i];
-//     //     resetAlertDivClass(alertDiv);
-//     //     addQuizOptionsClickListener(alertDiv, quizObj[quizQuestionIndex].options[i], quizObj[quizQuestionIndex].correctOption);
-//     // }
-
-//     questionPTag.textContent = quizObj[quizQuestionIndex].question;
-
-
-//     // addQuizOptionsClickListener(alertDiv, quizOption, correctOption)
-
-//     // for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) {
-//     //     createAndDisplayQuizOptions(colDiv, quizObj[quizQuestionIndex].options[i], quizObj[quizQuestionIndex].correctOption, i);
-//     // }
-// }
