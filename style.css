@@ -47,7 +47,7 @@ p{
 }
 
 #start-quiz-button{
-    background-color: #E73E48;
+    background-color: #F05755;
     border: none;
     color: white;
     text-decoration: none;
@@ -79,4 +79,16 @@ p{
     background-color: white;
     color: black;
     font-weight: bold;
+}
+
+.next-question-button{
+    background-color: #F05755;
+    border: none;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 14px 34px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px rgba(0, 0, 0, 0.2) 0px 1px 1px 0px; 
 }

@@ -31,12 +31,14 @@ var quizContent = [
         "correctOption": "<script src = \"xxx.js\">"
     },
     {
-        "question": "The external JavaScript file must contain the <script> tag.",
+        "question": "What is the correct JavaScript syntax to change the content of the HTML element below? <p id=\"demo\">This is a demonstration.</p>",
         "options": [
-            "True",
-            "False"
+            "document.getElement(\"p\").innerHTML = \"Hello World!\";",
+            "document.getElementByName(\"p\").innerHTML = \"Hello World!\";",
+            "#demo.innerHTML = \"Hello World!\";",
+            "document.getElementById(\"demo\").innerHTML = \"Hello World!\";"
         ],
-        "correctOption": "False"
+        "correctOption": "document.getElementById(\"demo\").innerHTML = \"Hello World!\";"
     },
     {
         "question": "How do you write \"Hello World\" in an alert box?",
@@ -53,7 +55,8 @@ var quizContent = [
         "options": [
             "function:myFunction()",
             "function myFunction()",
-            "function = myFunction()"
+            "function = myFunction()",
+            "None of the above"
         ],
         "correctOption": "function myFunction()"
     },
@@ -62,7 +65,8 @@ var quizContent = [
         "options": [
             "myFunction()",
             "call function myFunction()",
-            "call myFunction()"
+            "call myFunction()",
+            "All of the above"
         ],
         "correctOption": "myFunction()"
     },
@@ -110,8 +114,7 @@ var cardBodyText = document.querySelector("p");
 var startQuizButton = document.querySelector("#start-quiz-button");
 // End region 
 
-// Region create html elements 
-// Create row and colums for quiz options 
+// Region create html elements - row and colums for quiz options 
 var rowDiv = document.createElement("div");
 rowDiv.setAttribute("class", "row rowBody py-5 justify-content-center");
 
@@ -122,19 +125,13 @@ colDiv.setAttribute("class", "colBody col-lg-6");
 var questionPTag = document.createElement("p");
 questionPTag.setAttribute("class", "questionPTag");
 
-  //Get quiz content from json
-  var quizObj = JSON.parse(JSON.stringify(quizContent));
+var nextButton = document.createElement("button");
+nextButton.setAttribute("class", "next-question-button");
+nextButton.textContent = "Next";
 
-// Event listener
-startQuizButton.addEventListener('click', function () {
-    cardBody.removeChild(cardTitle);
-    cardBody.removeChild(cardBodyText);
+//Parse quiz content from json
+var quizObj = JSON.parse(JSON.stringify(quizContent));
 
-    cardBody.appendChild(timerLabel);
-    timerLabel.appendChild(timeCountdownValue);
-    createAndDisplayQuizQuestions(cardBody);
-})
-// End region 
 
 // Region timer 
 var TotalTime = 100;
@@ -147,34 +144,57 @@ timeCountdownValue.setAttribute("class", "timeCountdownValue");
 
 var timerFunc = setInterval(function () {
     timeCountdownValue.textContent = TotalTime;
-    TotalTime--;
+    if(TotalTime > 0){
+        --TotalTime;
+    }
     if (TotalTime < 0) {
         clearInterval(timerFunc);
     }
 }, 1000);
 // End region 
 
-// Region quiz question creation 
-function createAndDisplayQuizQuestions(cardBody) {
+// Start button Event listener
+startQuizButton.addEventListener('click', function () {
+    cardBody.removeChild(cardTitle);
+    cardBody.removeChild(cardBodyText);
 
+    cardBody.appendChild(timerLabel);
+    timerLabel.appendChild(timeCountdownValue);
+    createAndDisplayQuizQuestions();
+})
+// End region 
+
+// Next button event listener 
+nextButton.addEventListener('click', function(){
+    if (TotalTime < 0) {
+        clearInterval(timerFunc);
+    }else if(TotalTime > 0 && quizQuestionIndex <= 9){
+        displayNextQuestion();
+    }
+})
+// End region 
+
+// Region quiz question creation 
+function createAndDisplayQuizQuestions() {
     generateQuizQuestion(quizQuestionIndex);
 
     // Append question p tag, row and column div tags to body 
     cardBody.appendChild(questionPTag);
     rowDiv.appendChild(colDiv);
     cardBody.appendChild(rowDiv)
+    cardBody.appendChild(nextButton);
 }
 
 function generateQuizQuestion(quizQuestionIndex) {
-   
+
 
     questionPTag.textContent = quizObj[quizQuestionIndex].question;
     for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) {
-        createAndDisplayQuizOptions(colDiv, quizObj[quizQuestionIndex].options[i], quizObj[quizQuestionIndex].correctOption, i);
+        createAndDisplayQuizOptions(quizObj[quizQuestionIndex].options[i], quizObj[quizQuestionIndex].correctOption, i);
     }
 }
 
-function createAndDisplayQuizOptions(colDiv, quizOption, correctOption, divCount) {
+function createAndDisplayQuizOptions(quizOption, correctOption, divCount) {
     var alertDiv = document.createElement("div");
     alertDiv.setAttribute("class", "alert alert-primary");
     alertDiv.setAttribute("role", "alert");
@@ -193,44 +213,57 @@ function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
             console.log("Correct answer");
             alertDiv.setAttribute("class", "alert alert-success");
             ++quizQuestionIndex
-            displayNextQuestion();
         } else {
             console.log("Wrong answer");
             alertDiv.setAttribute("class", "alert alert-danger");
-            if (TotalTime != 0) {
+            if (TotalTime> 9) {
                 TotalTime = TotalTime - 10;
             }
             ++quizQuestionIndex
-            displayNextQuestion();
         }
     })
 }
 // End region 
 
 // Region display next question 
-function displayNextQuestion(){
-if(colDiv.hasChildNodes()){
-console.log(colDiv.childNodes);
+function displayNextQuestion() {
+var optionPos0 = document.querySelector("#alertDiv0");
+var optionPos1 = document.querySelector("#alertDiv1");
+var optionPos2 = document.querySelector("#alertDiv2");
+var optionPos3 = document.querySelector("#alertDiv3");
 
-// for(var i = 0; i<quizObj[quizQuestionIndex].options.length; i++){
-//     var alertDiv = document.querySelector(`#alertDiv${i}`);
-//     alertDiv.textContent = quizObj[quizQuestionIndex].options[i];
-//     resetAlertDivClass(alertDiv);
-//     addQuizOptionsClickListener(alertDiv, quizObj[quizQuestionIndex].options[i], quizObj[quizQuestionIndex].correctOption);
-// }
- 
-    questionPTag.textContent = quizObj[quizQuestionIndex].question;
+console.log(optionPos0);
+console.log(optionPos1);
+console.log(optionPos2);
+console.log(optionPos3);
 
-   
-    // addQuizOptionsClickListener(alertDiv, quizOption, correctOption)
+var optionArray = [optionPos0, optionPos1, optionPos2, optionPos3];
 
-    // for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) {
-    //     createAndDisplayQuizOptions(colDiv, quizObj[quizQuestionIndex].options[i], quizObj[quizQuestionIndex].correctOption, i);
-    // }
+questionPTag.textContent = quizObj[quizQuestionIndex].question;
+console.log(optionArray[i]);
+for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) { 
+    optionArray[i].textContent = quizObj[quizQuestionIndex].options[i];
+    optionArray[i].setAttribute("class", "alert alert-primary");
 }
 }
 // End region 
 
-function resetAlertDivClass(alertDiv){
-    alertDiv.setAttribute("class", "alert alert-primary");
-}
+// if (colDiv.hasChildNodes()) {
+//     console.log(colDiv.childNodes);
+
+//     // for(var i = 0; i<quizObj[quizQuestionIndex].options.length; i++){
+//     //     var alertDiv = document.querySelector(`#alertDiv${i}`);
+//     //     alertDiv.textContent = quizObj[quizQuestionIndex].options[i];
+//     //     resetAlertDivClass(alertDiv);
+//     //     addQuizOptionsClickListener(alertDiv, quizObj[quizQuestionIndex].options[i], quizObj[quizQuestionIndex].correctOption);
+//     // }
+
+//     questionPTag.textContent = quizObj[quizQuestionIndex].question;
+
+
+//     // addQuizOptionsClickListener(alertDiv, quizOption, correctOption)
+
+//     // for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) {
+//     //     createAndDisplayQuizOptions(colDiv, quizObj[quizQuestionIndex].options[i], quizObj[quizQuestionIndex].correctOption, i);
+//     // }
+// }
