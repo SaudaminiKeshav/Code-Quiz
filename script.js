@@ -122,7 +122,7 @@ var colDiv = document.createElement("div");
 colDiv.setAttribute("class", "colBody col-lg-6");
 
 // Display quiz question 
-var questionPTag = document.createElement("p");
+var questionPTag = document.createElement("h5");
 questionPTag.setAttribute("class", "questionPTag");
 
 var nextButton = document.createElement("button");
