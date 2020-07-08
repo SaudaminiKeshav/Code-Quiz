@@ -326,11 +326,12 @@ function setProgressPercentage() {
 function createAndDisplayQuizSummaryPage() {
     removeQuizhtmlElements();
 
+    displayQuizSummarryData();
+
     var resultPer = setProgressPercentage();
     displayScoreData(resultPer);
 
     cardBody.appendChild(quizStatus);
-
     progressDiv.appendChild(progressBarDiv);
     cardBody.appendChild(progressDiv);
 }
@@ -367,5 +368,15 @@ function displayScoreData(resultPer) {
     } else if (resultPer >= 50) {
         quizStatus.textContent = "Pass";
     }
+}
 
+function displayQuizSummarryData(){
+    var totalPercent = document.createElement("p");
+    totalPercent.textContent = "Total percentage: 100%"
+
+    var passPercent = document.createElement("p");
+    passPercent.textContent = "Pass percentage: 50%"
+
+    cardBody.appendChild(totalPercent);
+    cardBody.appendChild(passPercent);
 }
