@@ -118,6 +118,8 @@ var startQuizButton = document.querySelector("#start-quiz-button");
 // End region 
 
 // Region create html elements - row and colums for quiz options 
+var br = document.createElement("br");
+
 var rowDiv = document.createElement("div");
 rowDiv.setAttribute("class", "row rowBody py-5 justify-content-center");
 
@@ -324,6 +326,7 @@ function setProgressPercentage() {
 }
 
 function createAndDisplayQuizSummaryPage() {
+
     removeQuizhtmlElements();
 
     displayQuizSummarryData();
@@ -334,6 +337,9 @@ function createAndDisplayQuizSummaryPage() {
     cardBody.appendChild(quizStatus);
     progressDiv.appendChild(progressBarDiv);
     cardBody.appendChild(progressDiv);
+    cardBody.appendChild(br);
+
+    addButtonsDiv()
 }
 
 function setProgressPercentage() {
@@ -379,4 +385,24 @@ function displayQuizSummarryData(){
 
     cardBody.appendChild(totalPercent);
     cardBody.appendChild(passPercent);
+}
+
+function addButtonsDiv(){
+    var buttonsDiv = document.createElement("div");
+    buttonsDiv.setAttribute("class", "white-bg");
+
+    var retakeQuiz = document.createElement("button");
+    retakeQuiz.setAttribute("class", "custom-button");
+    retakeQuiz.textContent = "Retake Quiz";
+
+    var reviewResult = document.createElement("button");
+    reviewResult.setAttribute("class", "custom-button");
+    reviewResult.textContent = "Review Result";
+
+    buttonsDiv.appendChild(retakeQuiz);
+    buttonsDiv.appendChild(reviewResult);
+
+    cardBody.appendChild(br);
+    cardBody.appendChild(buttonsDiv);
+
 }
