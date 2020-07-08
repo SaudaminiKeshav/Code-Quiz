@@ -106,6 +106,7 @@ var quizContent = [
 
 var quizQuestionIndex = 0;
 var totalQuestions = 10;
+var score = 0;
 
 //Region HTML element creation
 var cardBody = document.querySelector(".card-body");
@@ -134,6 +135,7 @@ var quizObj = JSON.parse(JSON.stringify(quizContent));
 
 // Region creating div elements to display prgress bar 
 var progressDiv = document.createElement("div");
+
 progressDiv.setAttribute("class", "progress");
 
 var progressBarDiv = document.createElement("div");
@@ -182,7 +184,12 @@ nextButton.addEventListener('click', function () {
     if (TotalTime < 0) {
         clearInterval(timerFunc);
     } else if (TotalTime > 9) {
-        displayNextQuestion();
+        if(quizQuestionIndex != 9){
+            displayNextQuestion();
+        }else{
+            nextButton.textContent = "Quiz Summary";
+            createAndDisplayQuizSummaryPage();
+        }
     }
     if (TotalTime == 0 || TotalTime <= 9) {
         nextButton.textContent = "Quiz Summary";
@@ -203,8 +210,6 @@ function createAndDisplayQuizQuestions() {
 }
 
 function generateQuizQuestion(quizQuestionIndex) {
-
-
     questionPTag.textContent = quizObj[quizQuestionIndex].question;
     for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) {
         createAndDisplayQuizOptions(quizObj[quizQuestionIndex].options[i], quizObj[quizQuestionIndex].correctOption, i);
@@ -220,7 +225,7 @@ function createAndDisplayQuizOptions(quizOption, correctOption, divCount) {
     console.log(divCount);
     alertDiv.textContent = quizOption;
     colDiv.appendChild(alertDiv);
-    addQuizOptionsClickListener(alertDiv, quizOption, correctOption)
+    addQuizOptionsClickListener(alertDiv, quizOption, correctOption);
 }
 // End region 
 
@@ -233,15 +238,17 @@ function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
             nextButton.textContent = "Quiz Summary";
         }
 
-        if (selectedOption == correctOption) {
-            console.log("Correct answer");
-            ++quizQuestionIndex
+        if (selectedOption.textContent == correctOption.textContent) {
+            ++score;
+            console.log(`Correct answer ${score}`);
+            
+            ++quizQuestionIndex;
         } else {
             console.log("Wrong answer");
             if (TotalTime > 9) {
                 TotalTime = TotalTime - 10;
             }
-            ++quizQuestionIndex
+            ++quizQuestionIndex;
         }
     })
 }
@@ -278,13 +285,25 @@ function createAndDisplayQuizSummaryPage() {
     cardBody.removeChild(nextButton);
 
 
-    progressBarDiv.setAttribute("style", "width: 45%");
-    progressBarDiv.setAttribute("aria-valuenow", "45");
-
-
-    progressBarDiv.textContent = "45%";
+    setProgressPercentage();
 
     progressDiv.appendChild(progressBarDiv);
     cardBody.appendChild(progressDiv);
+}
 
+function setProgressPercentage() {
+    var percentage = 0;
+    if (score != 0) {
+        percentage = (score / 10) * 100;
+        console.log(percentage);
+        progressBarDiv.setAttribute("style", `width: ${percentage}%`);
+        progressBarDiv.setAttribute("aria-valuenow", `${percentage}`);
+        progressBarDiv.textContent = `${percentage}%`;
+    }else{
+        console.log(percentage);
+        progressBarDiv.setAttribute("style", `width: 100%`);
+        progressBarDiv.setAttribute("aria-valuenow", `0`);
+        progressBarDiv.textContent = `0%`;
+    }
+   
 }
