@@ -1,23 +1,16 @@
 var scores = JSON.parse(localStorage.getItem('UserScore'));
-var sortedScores = sortArray(scores);
-console.log(scores);
-console.log(sortedScores);
 
+console.log(scores);
 var highScoreList = document.querySelector("ol");
 
-console.log(scores);
+var orderScores = Object.entries(scores).sort((a,b) => b[0]-a[0]);
+console.log(orderScores);
 
-scores.forEach(score => {
+orderScores.forEach(score => {
     var listItem = document.createElement("li");
     listItem.setAttribute("class", "white-bg");
 
-   
-
-    listItem.textContent = score;
+    listItem.textContent = score[1];
     highScoreList.append(listItem);
-    console.log(score);
+    console.log(score[1]);
 });
-
-function sortArray(scores){
-return scores.split("-");
-}
