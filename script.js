@@ -31,14 +31,14 @@ var quizContent = [
         "correctOption": "<script src = \"xxx.js\">"
     },
     {
-        "question": "What is the correct JavaScript syntax to change the content of the HTML element below? <p id=\"demo\">This is a demonstration.</p>",
+        "question": "Which of the following function of String object returns the calling string value converted to lower case while respecting the current locale?",
         "options": [
-            "document.getElement(\"p\").innerHTML = \"Hello World!\";",
-            "document.getElementByName(\"p\").innerHTML = \"Hello World!\";",
-            "#demo.innerHTML = \"Hello World!\";",
-            "document.getElementById(\"demo\").innerHTML = \"Hello World!\";"
+            "toLocaleLowerCase()",
+            "toLowerCase()",
+            "toString()",
+            "substring()"
         ],
-        "correctOption": "document.getElementById(\"demo\").innerHTML = \"Hello World!\";"
+        "correctOption": "toLocaleLowerCase()"
     },
     {
         "question": "How do you write \"Hello World\" in an alert box?",
@@ -107,6 +107,8 @@ var quizContent = [
 var quizQuestionIndex = 0;
 var totalQuestions = 10;
 var score = 0;
+var selectedQuizOption = "";
+var correctQuizOption = "";
 
 //Region HTML element creation
 var cardBody = document.querySelector(".card-body");
@@ -143,6 +145,11 @@ progressBarDiv.setAttribute("class", "progress-bar bg-success");
 progressBarDiv.setAttribute("role", "progressbar");
 progressBarDiv.setAttribute("aria-valuemin", "0");
 progressBarDiv.setAttribute("aria-valuemax", "100");
+// End region 
+
+// Region progress summary 
+var quizStatus = document.createElement("h4");
+quizStatus.setAttribute("class", "quizResult")
 // End region 
 
 // Region timer 
@@ -184,17 +191,36 @@ nextButton.addEventListener('click', function () {
     if (TotalTime < 0) {
         clearInterval(timerFunc);
     } else if (TotalTime > 9) {
-        if(quizQuestionIndex != 9){
+        if (quizQuestionIndex != 9) {
             displayNextQuestion();
-        }else{
+        } else {
             nextButton.textContent = "Quiz Summary";
             createAndDisplayQuizSummaryPage();
         }
     }
-    if (TotalTime == 0 || TotalTime <= 9) {
+    if (TotalTime <= 0 || TotalTime <= 9) {
         nextButton.textContent = "Quiz Summary";
         createAndDisplayQuizSummaryPage();
     }
+
+    console.log(selectedQuizOption);
+    console.log(correctQuizOption);
+
+    if (selectedQuizOption == correctQuizOption) {
+        ++score;
+        console.log(`Correct answer ${score}`);   
+    } else {
+        console.log("Wrong answer");
+        console.log(`Wrong answer ${TotalTime}`);
+        if (TotalTime > 9) {
+            TotalTime = TotalTime - 10;
+        }
+        console.log(`Wrong answer ${TotalTime}`);
+    }
+
+
+
+
 })
 // End region 
 
@@ -231,26 +257,13 @@ function createAndDisplayQuizOptions(quizOption, correctOption, divCount) {
 
 // Region quiz options click listener 
 function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
-    alertDiv.addEventListener('click', function () {
+    alertDiv.addEventListener('click', function() {
         alertDiv.setAttribute("class", "alert alert-primary border border-primary");
 
-        if (TotalTime <= 0) {
-            nextButton.textContent = "Quiz Summary";
-        }
-
-        if (selectedOption.textContent == correctOption.textContent) {
-            ++score;
-            console.log(`Correct answer ${score}`);
-            
-            ++quizQuestionIndex;
-        } else {
-            console.log("Wrong answer");
-            if (TotalTime > 9) {
-                TotalTime = TotalTime - 10;
-            }
-            ++quizQuestionIndex;
-        }
-    })
+        selectedQuizOption = selectedOption;
+        correctQuizOption = correctOption;
+          
+    }, { once: true })
 }
 // End region 
 
@@ -261,18 +274,20 @@ function displayNextQuestion() {
     var optionPos2 = document.querySelector("#alertDiv2");
     var optionPos3 = document.querySelector("#alertDiv3");
 
-    console.log(optionPos0);
-    console.log(optionPos1);
-    console.log(optionPos2);
-    console.log(optionPos3);
-
     var optionArray = [optionPos0, optionPos1, optionPos2, optionPos3];
 
-    questionPTag.textContent = quizObj[quizQuestionIndex].question;
     console.log(optionArray[i]);
+    
+    ++quizQuestionIndex;
+
     for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) {
+        console.log(quizQuestionIndex);
+        questionPTag.textContent = quizObj[quizQuestionIndex].question;
+
         optionArray[i].textContent = quizObj[quizQuestionIndex].options[i];
         optionArray[i].setAttribute("class", "alert alert-primary");
+
+        addQuizOptionsClickListener(optionArray[i], quizObj[quizQuestionIndex].options[i], quizObj[quizQuestionIndex].correctOption);
     }
 }
 // End region 
@@ -299,11 +314,58 @@ function setProgressPercentage() {
         progressBarDiv.setAttribute("style", `width: ${percentage}%`);
         progressBarDiv.setAttribute("aria-valuenow", `${percentage}`);
         progressBarDiv.textContent = `${percentage}%`;
-    }else{
+    } else {
         console.log(percentage);
         progressBarDiv.setAttribute("style", `width: 100%`);
         progressBarDiv.setAttribute("aria-valuenow", `0`);
         progressBarDiv.textContent = `0%`;
     }
-   
+
+}
+
+function createAndDisplayQuizSummaryPage() {
+    removeQuizhtmlElements();
+
+    var resultPer = setProgressPercentage();
+    displayScoreData(resultPer);
+
+    cardBody.appendChild(quizStatus);
+
+    progressDiv.appendChild(progressBarDiv);
+    cardBody.appendChild(progressDiv);
+}
+
+function setProgressPercentage() {
+    var percentage = 0;
+    if (score != 0) {
+        percentage = (score / 10) * 100;
+        console.log(percentage);
+        progressBarDiv.setAttribute("style", `width: ${percentage}%`);
+        progressBarDiv.setAttribute("aria-valuenow", `${percentage}`);
+        progressBarDiv.textContent = `${percentage}%`;
+    } else {
+        console.log(percentage);
+        progressBarDiv.setAttribute("style", `width: 100%`);
+        progressBarDiv.setAttribute("aria-valuenow", `0`);
+        progressBarDiv.textContent = `0%`;
+    }
+    return percentage;
+}
+
+function removeQuizhtmlElements() {
+    cardBody.removeChild(timerLabel);
+    cardBody.removeChild(questionPTag);
+    rowDiv.removeChild(colDiv);
+    cardBody.removeChild(rowDiv)
+    cardBody.removeChild(nextButton);
+}
+
+function displayScoreData(resultPer) {
+    quizStatus.textContent = "";
+    if (resultPer < 50) {
+        quizStatus.textContent = "Fail";
+    } else if (resultPer >= 50) {
+        quizStatus.textContent = "Pass";
+    }
+
 }
