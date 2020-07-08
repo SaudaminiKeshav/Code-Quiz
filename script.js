@@ -109,6 +109,7 @@ var totalQuestions = 10;
 var score = 0;
 var selectedQuizOption = "";
 var correctQuizOption = "";
+var userData = [];
 
 //Region HTML element creation
 var cardBody = document.querySelector(".card-body");
@@ -190,7 +191,7 @@ startQuizButton.addEventListener('click', function () {
 
 // Next button event listener 
 nextButton.addEventListener('click', function () {
-   
+
 
     console.log(selectedQuizOption);
     console.log(correctQuizOption);
@@ -339,11 +340,11 @@ function createAndDisplayQuizSummaryPage() {
 
 function setProgressPercentage() {
     var percentage = 0;
-        percentage = score * 10;
-        console.log(percentage);
-        progressBarDiv.setAttribute("style", `width: ${percentage}%`);
-        progressBarDiv.setAttribute("aria-valuenow", `${percentage}`);
-        progressBarDiv.textContent = `${percentage}%`;
+    percentage = score * 10;
+    console.log(percentage);
+    progressBarDiv.setAttribute("style", `width: ${percentage}%`);
+    progressBarDiv.setAttribute("aria-valuenow", `${percentage}`);
+    progressBarDiv.textContent = `${percentage}%`;
     return percentage;
 }
 
@@ -419,12 +420,20 @@ function addSubmitButtonDiv() {
 function storeUserInitialAndScoreToLocalStorage(intialsInput) {
     console.log(intialsInput);
     console.log(score);
+    var scores = score.value;
+    var scoresArray = "";
+    scoresArray = JSON.parse(localStorage.getItem('UserScore'));
+console.log(scoresArray);
 
-    var userData = {
-        initials: `${intialsInput}`,
-        score: `${score * 10}`
+    if (scoresArray != "") {
+        scoresArray = JSON.parse(localStorage.getItem('UserScore'));
+        scoresArray.push({key:`${score}`, value: `${intialsInput} - ${score * 10}`});
+        localStorage.setItem(`UserScore`, JSON.stringify(scoresArray));
+    } else{
+        userData.push({key:`${score}`, value: `${intialsInput} - ${score * 10}`})
+
+        console.log(userData);
+
+        localStorage.setItem(`UserScore`, JSON.stringify(userData));
     }
-
-    console.log(userData);
-    localStorage.setItem('UserScore', JSON.stringify(userData));
 }

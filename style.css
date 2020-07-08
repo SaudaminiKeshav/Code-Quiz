@@ -130,6 +130,8 @@ p{
 }
 
 .card-highscore-text{
-    text-align: start;
-    margin-left: 200px;
+    text-align: justify;
+    background-color: white;
+    color: black;
+    font-weight: bold;
 }
