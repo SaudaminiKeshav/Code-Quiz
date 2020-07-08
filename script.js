@@ -347,7 +347,7 @@ function createAndDisplayQuizSummaryPage() {
 function setProgressPercentage() {
     var percentage = 0;
     if (score != 0) {
-        percentage = (score / 10) * 100;
+        percentage = score * 10;
         console.log(percentage);
         progressBarDiv.setAttribute("style", `width: ${percentage}%`);
         progressBarDiv.setAttribute("aria-valuenow", `${percentage}`);
@@ -417,11 +417,28 @@ function addSubmitButtonDiv() {
     submitIntials.textContent = "Submit";
 
     var intialsInput = document.createElement("INPUT");
-    intialsInput.setAttribute("type","text");
+    intialsInput.setAttribute("type", "text");
     intialsInput.setAttribute("placeholder", "Input Initials");
     intialsInput.setAttribute("class", "white-bg");
 
     buttonsDiv.appendChild(intialsInput);
     buttonsDiv.appendChild(submitIntials);
     cardBody.appendChild(buttonsDiv);
+
+    submitIntials.addEventListener('click', function () {
+        storeUserInitialAndScoreToLocalStorage(intialsInput.value);
+    })
+}
+
+function storeUserInitialAndScoreToLocalStorage(intialsInput) {
+    console.log(intialsInput);
+    console.log(score);
+
+    var userData = {
+        initials: `${intialsInput}`,
+        score: `${score * 10}`
+    }
+
+    console.log(userData);
+    localStorage.setItem('UserScore', JSON.stringify(userData));
 }
