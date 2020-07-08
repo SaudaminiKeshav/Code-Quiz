@@ -210,7 +210,7 @@ nextButton.addEventListener('click', function () {
 
     if (selectedQuizOption == correctQuizOption) {
         ++score;
-        console.log(`Correct answer ${score}`);   
+        console.log(`Correct answer ${score}`);
     } else {
         console.log("Wrong answer");
         console.log(`Wrong answer ${TotalTime}`);
@@ -259,12 +259,12 @@ function createAndDisplayQuizOptions(quizOption, correctOption, divCount) {
 
 // Region quiz options click listener 
 function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
-    alertDiv.addEventListener('click', function() {
+    alertDiv.addEventListener('click', function () {
         alertDiv.setAttribute("class", "alert alert-primary border border-primary");
 
         selectedQuizOption = selectedOption;
         correctQuizOption = correctOption;
-          
+
     }, { once: true })
 }
 // End region 
@@ -279,7 +279,7 @@ function displayNextQuestion() {
     var optionArray = [optionPos0, optionPos1, optionPos2, optionPos3];
 
     console.log(optionArray[i]);
-    
+
     ++quizQuestionIndex;
 
     for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) {
@@ -340,6 +340,8 @@ function createAndDisplayQuizSummaryPage() {
     cardBody.appendChild(br);
 
     addButtonsDiv()
+
+    addSubmitButtonDiv()
 }
 
 function setProgressPercentage() {
@@ -376,7 +378,7 @@ function displayScoreData(resultPer) {
     }
 }
 
-function displayQuizSummarryData(){
+function displayQuizSummarryData() {
     var totalPercent = document.createElement("p");
     totalPercent.textContent = "Total percentage: 100%"
 
@@ -387,7 +389,7 @@ function displayQuizSummarryData(){
     cardBody.appendChild(passPercent);
 }
 
-function addButtonsDiv(){
+function addButtonsDiv() {
     var buttonsDiv = document.createElement("div");
     buttonsDiv.setAttribute("class", "white-bg");
 
@@ -404,5 +406,22 @@ function addButtonsDiv(){
 
     cardBody.appendChild(br);
     cardBody.appendChild(buttonsDiv);
+}
 
+function addSubmitButtonDiv() {
+    var buttonsDiv = document.createElement("div");
+    buttonsDiv.setAttribute("class", "white-bg");
+
+    var submitIntials = document.createElement("button");
+    submitIntials.setAttribute("class", "custom-button");
+    submitIntials.textContent = "Submit";
+
+    var intialsInput = document.createElement("INPUT");
+    intialsInput.setAttribute("type","text");
+    intialsInput.setAttribute("placeholder", "Input Initials");
+    intialsInput.setAttribute("class", "white-bg");
+
+    buttonsDiv.appendChild(intialsInput);
+    buttonsDiv.appendChild(submitIntials);
+    cardBody.appendChild(buttonsDiv);
 }
