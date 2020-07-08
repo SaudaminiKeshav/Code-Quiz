@@ -190,26 +190,13 @@ startQuizButton.addEventListener('click', function () {
 
 // Next button event listener 
 nextButton.addEventListener('click', function () {
-    if (TotalTime < 0) {
-        clearInterval(timerFunc);
-    } else if (TotalTime > 9) {
-        if (quizQuestionIndex != 9) {
-            displayNextQuestion();
-        } else {
-            nextButton.textContent = "Quiz Summary";
-            createAndDisplayQuizSummaryPage();
-        }
-    }
-    if (TotalTime <= 0 || TotalTime <= 9) {
-        nextButton.textContent = "Quiz Summary";
-        createAndDisplayQuizSummaryPage();
-    }
+   
 
     console.log(selectedQuizOption);
     console.log(correctQuizOption);
 
     if (selectedQuizOption == correctQuizOption) {
-        ++score;
+        score++;
         console.log(`Correct answer ${score}`);
     } else {
         console.log("Wrong answer");
@@ -220,9 +207,15 @@ nextButton.addEventListener('click', function () {
         console.log(`Wrong answer ${TotalTime}`);
     }
 
-
-
-
+    if (TotalTime <= 0 || TotalTime <= 9) {
+        clearInterval(timerFunc);
+        nextButton.textContent = "Quiz Summary";
+        createAndDisplayQuizSummaryPage();
+    } else if (TotalTime > 9) {
+        if (quizQuestionIndex != 9) {
+            displayNextQuestion();
+        }
+    }
 })
 // End region 
 
@@ -331,9 +324,6 @@ function createAndDisplayQuizSummaryPage() {
 
     displayQuizSummarryData();
 
-    var resultPer = setProgressPercentage();
-    displayScoreData(resultPer);
-
     cardBody.appendChild(quizStatus);
     progressDiv.appendChild(progressBarDiv);
     cardBody.appendChild(progressDiv);
@@ -342,22 +332,18 @@ function createAndDisplayQuizSummaryPage() {
     addButtonsDiv()
 
     addSubmitButtonDiv()
+
+    var resultPer = setProgressPercentage();
+    displayScoreData(resultPer);
 }
 
 function setProgressPercentage() {
     var percentage = 0;
-    if (score != 0) {
         percentage = score * 10;
         console.log(percentage);
         progressBarDiv.setAttribute("style", `width: ${percentage}%`);
         progressBarDiv.setAttribute("aria-valuenow", `${percentage}`);
         progressBarDiv.textContent = `${percentage}%`;
-    } else {
-        console.log(percentage);
-        progressBarDiv.setAttribute("style", `width: 100%`);
-        progressBarDiv.setAttribute("aria-valuenow", `0`);
-        progressBarDiv.textContent = `0%`;
-    }
     return percentage;
 }
 
