@@ -10,7 +10,7 @@ orderScores.forEach(score => {
     listItem.setAttribute("class", "white-bg");
     listItem.setAttribute("text-align", "center");
 
-    listItem.textContent = score[1].value;
+    listItem.textContent = score.value;
     highScoreList.append(listItem);
 });
 
