@@ -335,10 +335,7 @@ function createAndDisplayQuizSummaryPage() {
     cardBody.removeChild(rowDiv)
     cardBody.removeChild(nextButton);
 
-    setProgressPercentage();
-
-    progressDiv.appendChild(progressBarDiv);
-    cardBody.appendChild(progressDiv);
+    
 }
 // End region 
 
@@ -362,12 +359,14 @@ function setProgressPercentage() {
     progressBarDiv.setAttribute("font-weight","bold");
     progressBarDiv.setAttribute("color"," black");
     progressBarDiv.textContent = `0%`;
+    percentage = 0;
     } else{
         progressBarDiv.setAttribute("style", `width: ${percentage}%`);
         progressBarDiv.setAttribute("aria-valuenow", `${percentage}`);
         progressBarDiv.setAttribute("font-weight","bold");
         progressBarDiv.textContent = `${percentage}%`;
     }
+    return percentage;
 }
 // End region 
 
@@ -377,6 +376,10 @@ function createAndDisplayQuizSummaryPage() {
 
     displayQuizSummarryData();
 
+    var resultPer = setProgressPercentage();
+    console.log(resultPer);
+    displayScoreData(resultPer);
+
     cardBody.appendChild(quizStatus);
     progressDiv.appendChild(progressBarDiv);
     cardBody.appendChild(progressDiv);
@@ -385,9 +388,6 @@ function createAndDisplayQuizSummaryPage() {
     addButtonsDiv()
 
     addSubmitButtonDiv()
-
-    var resultPer = setProgressPercentage();
-    displayScoreData(resultPer);
 }
 // End region 
 
