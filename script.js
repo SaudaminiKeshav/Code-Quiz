@@ -265,29 +265,56 @@ function createAndDisplayQuizOptions(quizOption, correctOption, divCount) {
 
 function clickFunction(alertDivid) {
 
-    console.log(alertDivid);
-    console.log(alertDivList);
+    var alertDiv = document.getElementById(alertDivid);
+
+    alertDiv.setAttribute("class", "alert alert-primary border border-primary");
+
+    selectedQuizOption = alertDiv.textContent;
+
+    alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
 
     var index = alertDivList.indexOf(alertDivid);
     if (index > -1) {
         alertDivList.splice(index, 1);
     }
 
-    console.log(alertDivList);
     alertDivList.forEach(element => {
         var alertDiv = document.querySelector(`#${element}`);
-        alertDiv.style.pointerEvents = 'none';
+        alertDiv.setAttribute("class", "alert alert-primary");
     });
-
+    console.log(selectedQuizOption);
+    console.log(correctQuizOption);
 }
 
 // Region quiz options click listener 
 function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
     alertDiv.addEventListener('click', function () {
-        alertDiv.setAttribute("class", "alert alert-primary border border-primary");
+        this.setAttribute("class", "alert alert-primary border border-primary");
+        
+        console.log(alertDivList);
+
+        alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
+
+        console.log(alertDiv);
+        console.log(alertDivList);
+
+        var index = alertDivList.indexOf(this.id);
+        if (index > -1) {
+            alertDivList.splice(index, 1);
+        }
+
+        alertDivList.forEach(element => {
+            var div = document.querySelector(`#${element}`);
+            div.setAttribute("class", "alert alert-primary");
+        });
 
         selectedQuizOption = selectedOption;
         correctQuizOption = correctOption;
+
+        console.log(selectedQuizOption);
+        console.log(correctQuizOption);
+
+        console.log(alertDivList);
 
     }, { once: true })
 
@@ -303,7 +330,7 @@ function displayNextQuestion() {
 
     var optionArray = [optionPos0, optionPos1, optionPos2, optionPos3];
 
-    resetClickListeners();
+    // resetAlertDivBorderOfSelectedOption();
 
     console.log(optionArray[i]);
 
@@ -321,15 +348,15 @@ function displayNextQuestion() {
 }
 // End region 
 
-function resetClickListeners() {
+// function resetAlertDivBorderOfSelectedOption() {
 
-    alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
+//     alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
 
-    alertDivList.forEach(element => {
-        var alertDiv = document.querySelector(`#${element}`);
-        alertDiv.style.pointerEvents = 'auto';
-    });
-}
+//     alertDivList.forEach(element => {
+//         var alertDiv = document.querySelector(`#${element}`);
+//         alertDiv.style.pointerEvents = 'auto';
+//     });
+// }
 
 function createAndDisplayQuizSummaryPage() {
     cardBody.removeChild(timerLabel);
