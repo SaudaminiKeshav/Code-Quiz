@@ -111,6 +111,7 @@ var selectedQuizOption = "";
 var correctQuizOption = "";
 var userData = [];
 var alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
+var userAnswerList = [];
 
 //Region HTML element creation
 var cardBody = document.querySelector(".card-body");
@@ -455,12 +456,13 @@ function addButtonsDiv() {
     retakeQuiz.textContent = "Retake Quiz";
     addRetakeQuizEventListner(retakeQuiz);
 
-    var reviewResult = document.createElement("button");
-    reviewResult.setAttribute("class", "custom-button");
-    reviewResult.textContent = "Review Result";
+    var reviewResults = document.createElement("button");
+    reviewResults.setAttribute("class", "custom-button");
+    reviewResults.textContent = "Review Result";
+    addReviewResultsEventListner(reviewResults);
 
     buttonsDiv.appendChild(retakeQuiz);
-    buttonsDiv.appendChild(reviewResult);
+    buttonsDiv.appendChild(reviewResults);
 
     cardBody.appendChild(br);
     cardBody.appendChild(buttonsDiv);
@@ -517,8 +519,76 @@ function storeUserInitialAndScoreToLocalStorage(intialsInput) {
 }
 
 
-function addRetakeQuizEventListner(retakeQuiz){
-    retakeQuiz.addEventListener('click', function(){
-       window.location.reload();
+function addRetakeQuizEventListner(retakeQuiz) {
+    retakeQuiz.addEventListener('click', function () {
+        window.location.reload();
     })
+}
+
+function addReviewResultsEventListner(reviewResults) {
+    reviewResults.addEventListener('click', function () {
+
+          // Remove all the child nodes of cardBody 
+          while (cardBody.firstChild) {
+            cardBody.removeChild(cardBody.firstChild);
+        }
+
+        //Adding a titlte to the review page 
+        var titleTag = document.createElement("h2");
+        titleTag.setAttribute("class", "white-bg");
+        titleTag.textContent ="Review Results";
+        cardBody.appendChild(titleTag);
+        cardBody.appendChild(getHrElement());
+        cardBody.appendChild(getBrElement());
+
+        for (var i = 0; i < quizContent.length; i++) {
+            displayQuizQuestions(i);
+            cardBody.appendChild(getBrElement());
+        }
+    })
+}
+
+function displayQuizQuestions(questionIndex) {
+
+    // Adding a br and hr tag 
+   
+
+    // Display quiz question 
+    var questionPTag = document.createElement("h5");
+    questionPTag.setAttribute("class", "questionPTag");
+    questionPTag.textContent = quizObj[questionIndex].question;
+    cardBody.appendChild(questionPTag);
+    for (var i = 0; i < quizObj[questionIndex].options.length; i++) {
+
+        var rowDiv = document.createElement("div");
+        rowDiv.setAttribute("class", "row rowBody justify-content-center");
+
+        var colDiv = document.createElement("div");
+        colDiv.setAttribute("class", "colBody col-lg-6");
+
+        var alertDiv = document.createElement("div");
+        alertDiv.setAttribute("class", "alert alert-primary");
+        alertDiv.setAttribute("role", "alert");
+        alertDiv.setAttribute("style", "word-wrap:break-word;");
+
+        // alertDiv.setAttribute("id", `alertDiv${divCount}`);
+        // alertDiv.setAttribute("onclick", "clickFunction(this.id)");
+        alertDiv.textContent = quizObj[questionIndex].options[i];
+        colDiv.appendChild(alertDiv);
+        console.log("In review result")
+        // Append question p tag, row and column div tags to body 
+
+        rowDiv.appendChild(colDiv);
+
+        cardBody.appendChild(rowDiv)
+
+    }
+}
+
+function getBrElement(){
+    return brTag = document.createElement("br");
+}
+
+function getHrElement(){
+    return hrTag = document.createElement("hr");
 }

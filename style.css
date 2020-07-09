@@ -5,6 +5,8 @@
 .container{
     text-align: center;
     display:block;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .card-body{
@@ -13,7 +15,7 @@
     min-height: 500px;
     margin-left: 10px;
     margin-right: 10px;
-    
+    padding: 10px;
 }
 
 .card-title{
@@ -37,6 +39,8 @@
 
 .rowBody{
     background-color: white;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .colBody{
     background-color: white;
