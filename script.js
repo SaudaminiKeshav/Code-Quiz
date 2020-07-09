@@ -290,7 +290,7 @@ function clickFunction(alertDivid) {
 function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
     alertDiv.addEventListener('click', function () {
         this.setAttribute("class", "alert alert-primary border border-primary");
-        
+
         console.log(alertDivList);
 
         alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
