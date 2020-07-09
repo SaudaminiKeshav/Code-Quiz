@@ -3,7 +3,8 @@ var scores = JSON.parse(localStorage.getItem('UserScore'));
 var highScoreList = document.querySelector("ol");
 highScoreList.setAttribute("text-align", "center");
 
-var orderScores = Object.entries(scores).sort((a,b) => b[0]-a[0]);
+console.log(scores);
+var orderScores = scores.sort((a,b) => b.key-a.key);
 
 orderScores.forEach(score => {
     var listItem = document.createElement("li");
