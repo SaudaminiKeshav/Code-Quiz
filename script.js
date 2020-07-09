@@ -571,12 +571,12 @@ function displayQuizQuestions(questionIndex, userAnswer) {
 
         // If the option is the one user selected and it is the right answer
         if (quizObj[questionIndex].options[i] == userAnswer && quizObj[questionIndex].options[i] == quizObj[questionIndex].correctOption) {
-            alertDiv.setAttribute("class", "alert alert-success border border-success");
+            alertDiv.setAttribute("class", "alert alert-success border border-primary");
         }
 
         // If the option is the one user selected and it is not the right answer
         else if (quizObj[questionIndex].options[i] == userAnswer && quizObj[questionIndex].options[i] != quizObj[questionIndex].correctOption) {
-            alertDiv.setAttribute("class", "alert alert-danger border border-danger");
+            alertDiv.setAttribute("class", "alert alert-danger border border-primary");
         }
 
         // If the option is the one user didn't selected and it is the right answer
