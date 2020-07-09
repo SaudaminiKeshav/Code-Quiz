@@ -28,4 +28,5 @@ clearButton.addEventListener('click', function () {
         highScoreList.removeChild(listItem);
         listItem = highScoreList.lastElementChild;
     }
+    window.localStorage.clear();
 })
