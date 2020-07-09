@@ -16,3 +16,13 @@ orderScores.forEach(score => {
     highScoreList.append(listItem);
     console.log(score[1]);
 });
+
+var clearButton = document.querySelector("#clear-score-button");
+clearButton.addEventListener('click', function(){
+    var listItem = highScoreList.lastElementChild;
+
+    while(listItem){
+        highScoreList.removeChild(listItem);
+        listItem = highScoreList.lastElementChild;
+    }
+})

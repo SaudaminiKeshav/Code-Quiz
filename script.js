@@ -451,19 +451,24 @@ function addSubmitButtonDiv() {
     intialsInput.setAttribute("placeholder", "Input Initials");
     intialsInput.setAttribute("class", "white-bg");
 
+    var successMessage = document.createElement("p");
+    successMessage.textContent = "Submitted successfully!"
+
     buttonsDiv.appendChild(intialsInput);
     buttonsDiv.appendChild(submitIntials);
     cardBody.appendChild(buttonsDiv);
 
     submitIntials.addEventListener('click', function () {
         storeUserInitialAndScoreToLocalStorage(intialsInput.value);
+
+        cardBody.appendChild(successMessage);
     })
 }
 
 function storeUserInitialAndScoreToLocalStorage(intialsInput) {
     console.log(intialsInput);
     console.log(score);
-    var scores = score.value;
+
     var scoresArray = "";
     scoresArray = JSON.parse(localStorage.getItem('UserScore'));
     console.log(scoresArray);
