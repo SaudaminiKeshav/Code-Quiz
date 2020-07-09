@@ -543,9 +543,24 @@ function addReviewResultsEventListner(reviewResults) {
 
         console.log(userAnswerList);
 
-        for (var i = 0; i < quizContent.length; i++) {
-            displayQuizQuestions(i, userAnswerList[i]);
-            cardBody.appendChild(getBrElement());
+        var emptyCount = 0;
+
+        userAnswerList.forEach(element => {
+            if (element == "") {
+                emptyCount++;
+            }
+        });
+
+        if (emptyCount == quizContent.length) {
+            var emptyText = document.createElement("p");
+            emptyText.textContent = "To review results please select one of the options of quiz questions provided!"
+            cardBody.appendChild(emptyText);
+
+        } else {
+            for (var i = 0; i < quizContent.length; i++) {
+                displayQuizQuestions(i, userAnswerList[i]);
+                cardBody.appendChild(getBrElement());
+            }
         }
     })
 }
