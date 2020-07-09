@@ -496,14 +496,16 @@ function storeUserInitialAndScoreToLocalStorage(intialsInput) {
     console.log(intialsInput);
     console.log(score);
 
-    var scoresArray = "";
+    var scoresArray = [];
     scoresArray = JSON.parse(localStorage.getItem('UserScore'));
     console.log(scoresArray);
 
-    if (scoresArray != "") {
-        scoresArray = JSON.parse(localStorage.getItem('UserScore'));
-        scoresArray.push({ key: `${score}`, value: `${intialsInput} - ${score * 10}` });
-        localStorage.setItem(`UserScore`, JSON.stringify(scoresArray));
+    if (scoresArray != undefined || scoresArray != null) {
+        if (scoresArray.length != 0) {
+            scoresArray = JSON.parse(localStorage.getItem('UserScore'));
+            scoresArray.push({ key: `${score}`, value: `${intialsInput} - ${score * 10}` });
+            localStorage.setItem(`UserScore`, JSON.stringify(scoresArray));
+        }
     } else {
         userData.push({ key: `${score}`, value: `${intialsInput} - ${score * 10}` })
 
