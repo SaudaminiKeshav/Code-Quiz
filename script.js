@@ -202,10 +202,10 @@ startQuizButton.addEventListener('click', function () {
 
 // Next button event listener 
 nextButton.addEventListener('click', function () {
-
-
     console.log(selectedQuizOption);
     console.log(correctQuizOption);
+
+    userAnswerList.push(selectedQuizOption);
 
     if (selectedQuizOption == correctQuizOption) {
         score++;
@@ -528,30 +528,29 @@ function addRetakeQuizEventListner(retakeQuiz) {
 function addReviewResultsEventListner(reviewResults) {
     reviewResults.addEventListener('click', function () {
 
-          // Remove all the child nodes of cardBody 
-          while (cardBody.firstChild) {
+        // Remove all the child nodes of cardBody 
+        while (cardBody.firstChild) {
             cardBody.removeChild(cardBody.firstChild);
         }
 
         //Adding a titlte to the review page 
         var titleTag = document.createElement("h2");
         titleTag.setAttribute("class", "white-bg");
-        titleTag.textContent ="Review Results";
+        titleTag.textContent = "Review Results";
         cardBody.appendChild(titleTag);
         cardBody.appendChild(getHrElement());
         cardBody.appendChild(getBrElement());
 
+        console.log(userAnswerList);
+
         for (var i = 0; i < quizContent.length; i++) {
-            displayQuizQuestions(i);
+            displayQuizQuestions(i, userAnswerList[i]);
             cardBody.appendChild(getBrElement());
         }
     })
 }
 
-function displayQuizQuestions(questionIndex) {
-
-    // Adding a br and hr tag 
-   
+function displayQuizQuestions(questionIndex, userAnswer) {
 
     // Display quiz question 
     var questionPTag = document.createElement("h5");
@@ -567,9 +566,29 @@ function displayQuizQuestions(questionIndex) {
         colDiv.setAttribute("class", "colBody col-lg-6");
 
         var alertDiv = document.createElement("div");
-        alertDiv.setAttribute("class", "alert alert-primary");
         alertDiv.setAttribute("role", "alert");
         alertDiv.setAttribute("style", "word-wrap:break-word;");
+
+        // If the option is the one user selected and it is the right answer
+        if (quizObj[questionIndex].options[i] == userAnswer && quizObj[questionIndex].options[i] == quizObj[questionIndex].correctOption) {
+            alertDiv.setAttribute("class", "alert alert-success border border-success");
+        }
+
+        // If the option is the one user selected and it is not the right answer
+        else if (quizObj[questionIndex].options[i] == userAnswer && quizObj[questionIndex].options[i] != quizObj[questionIndex].correctOption) {
+            alertDiv.setAttribute("class", "alert alert-danger border border-danger");
+        }
+
+        // If the option is the one user didn't selected and it is the right answer
+        else if (quizObj[questionIndex].options[i] != userAnswer && quizObj[questionIndex].options[i] == quizObj[questionIndex].correctOption) {
+            alertDiv.setAttribute("class", "alert alert-success");
+        }
+
+        // If the option is the one user didn't selected and it is not the right answer
+        else if (quizObj[questionIndex].options[i] != userAnswer && quizObj[questionIndex].options[i] != quizObj[questionIndex].correctOption) {
+            alertDiv.setAttribute("class", "alert alert-danger");
+        }
+
 
         // alertDiv.setAttribute("id", `alertDiv${divCount}`);
         // alertDiv.setAttribute("onclick", "clickFunction(this.id)");
@@ -585,10 +604,10 @@ function displayQuizQuestions(questionIndex) {
     }
 }
 
-function getBrElement(){
+function getBrElement() {
     return brTag = document.createElement("br");
 }
 
-function getHrElement(){
+function getHrElement() {
     return hrTag = document.createElement("hr");
 }
