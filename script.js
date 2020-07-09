@@ -453,6 +453,7 @@ function addButtonsDiv() {
     var retakeQuiz = document.createElement("button");
     retakeQuiz.setAttribute("class", "custom-button");
     retakeQuiz.textContent = "Retake Quiz";
+    addRetakeQuizEventListner(retakeQuiz);
 
     var reviewResult = document.createElement("button");
     reviewResult.setAttribute("class", "custom-button");
@@ -513,4 +514,11 @@ function storeUserInitialAndScoreToLocalStorage(intialsInput) {
 
         localStorage.setItem(`UserScore`, JSON.stringify(userData));
     }
+}
+
+
+function addRetakeQuizEventListner(retakeQuiz){
+    retakeQuiz.addEventListener('click', function(){
+       window.location.reload();
+    })
 }
