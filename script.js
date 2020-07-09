@@ -110,6 +110,7 @@ var score = 0;
 var selectedQuizOption = "";
 var correctQuizOption = "";
 var userData = [];
+var alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
 
 //Region HTML element creation
 var cardBody = document.querySelector(".card-body");
@@ -140,6 +141,15 @@ var quizObj = JSON.parse(JSON.stringify(quizContent));
 
 // Region creating div elements to display prgress bar 
 var progressDiv = document.createElement("div");
+
+// Region create div to display snackbar 
+var toastDiv = document.createElement("div");
+toastDiv.setAttribute("class", "toast mt-3");
+var toastBodyDiv = document.createElement("div");
+toastBodyDiv.setAttribute("class", "toast-body");
+toastDiv.appendChild(toastBodyDiv);
+
+// End region 
 
 progressDiv.setAttribute("class", "progress");
 
@@ -208,7 +218,7 @@ nextButton.addEventListener('click', function () {
         console.log(`Wrong answer ${TotalTime}`);
     }
 
-    if (TotalTime <= 0 || TotalTime <= 9) {
+    if (TotalTime <= 0 || TotalTime <= 9 || quizQuestionIndex == 9) {
         clearInterval(timerFunc);
         nextButton.textContent = "Quiz Summary";
         createAndDisplayQuizSummaryPage();
@@ -243,13 +253,33 @@ function createAndDisplayQuizOptions(quizOption, correctOption, divCount) {
     alertDiv.setAttribute("class", "alert alert-primary");
     alertDiv.setAttribute("role", "alert");
     alertDiv.setAttribute("style", "word-wrap:break-word;");
+
     alertDiv.setAttribute("id", `alertDiv${divCount}`);
+    alertDiv.setAttribute("onclick", "clickFunction(this.id)");
     console.log(divCount);
     alertDiv.textContent = quizOption;
     colDiv.appendChild(alertDiv);
     addQuizOptionsClickListener(alertDiv, quizOption, correctOption);
 }
 // End region 
+
+function clickFunction(alertDivid) {
+
+    console.log(alertDivid);
+    console.log(alertDivList);
+
+    var index = alertDivList.indexOf(alertDivid);
+    if (index > -1) {
+        alertDivList.splice(index, 1);
+    }
+
+    console.log(alertDivList);
+    alertDivList.forEach(element => {
+        var alertDiv = document.querySelector(`#${element}`);
+        alertDiv.style.pointerEvents = 'none';
+    });
+
+}
 
 // Region quiz options click listener 
 function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
@@ -260,6 +290,7 @@ function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
         correctQuizOption = correctOption;
 
     }, { once: true })
+
 }
 // End region 
 
@@ -271,6 +302,8 @@ function displayNextQuestion() {
     var optionPos3 = document.querySelector("#alertDiv3");
 
     var optionArray = [optionPos0, optionPos1, optionPos2, optionPos3];
+
+    resetClickListeners();
 
     console.log(optionArray[i]);
 
@@ -287,6 +320,16 @@ function displayNextQuestion() {
     }
 }
 // End region 
+
+function resetClickListeners() {
+
+    alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
+
+    alertDivList.forEach(element => {
+        var alertDiv = document.querySelector(`#${element}`);
+        alertDiv.style.pointerEvents = 'auto';
+    });
+}
 
 function createAndDisplayQuizSummaryPage() {
     cardBody.removeChild(timerLabel);
@@ -423,14 +466,14 @@ function storeUserInitialAndScoreToLocalStorage(intialsInput) {
     var scores = score.value;
     var scoresArray = "";
     scoresArray = JSON.parse(localStorage.getItem('UserScore'));
-console.log(scoresArray);
+    console.log(scoresArray);
 
     if (scoresArray != "") {
         scoresArray = JSON.parse(localStorage.getItem('UserScore'));
-        scoresArray.push({key:`${score}`, value: `${intialsInput} - ${score * 10}`});
+        scoresArray.push({ key: `${score}`, value: `${intialsInput} - ${score * 10}` });
         localStorage.setItem(`UserScore`, JSON.stringify(scoresArray));
-    } else{
-        userData.push({key:`${score}`, value: `${intialsInput} - ${score * 10}`})
+    } else {
+        userData.push({ key: `${score}`, value: `${intialsInput} - ${score * 10}` })
 
         console.log(userData);
 

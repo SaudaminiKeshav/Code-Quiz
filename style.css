@@ -116,6 +116,12 @@ p{
     font-weight: bold;
 }
 
+.toast-bg{
+    background-color: cornsilk;
+    color: black;
+    font-weight: bold;
+}
+
 .custom-button{
     background-color: #F05755;
     border: none;
@@ -131,6 +137,9 @@ p{
 
 .card-highscore-text{
     text-align: justify;
+    align-items: center;
+    align-self: center;
+    align-content:center;
     background-color: white;
     color: black;
     font-weight: bold;
