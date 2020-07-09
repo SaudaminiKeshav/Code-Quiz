@@ -101,9 +101,9 @@ var quizContent = [
         "correctOption": "onClick"
     }
 ];
-
 //End region
 
+// Region Variable assignment
 var quizQuestionIndex = 0;
 var totalQuestions = 10;
 var score = 0;
@@ -112,6 +112,7 @@ var correctQuizOption = "";
 var userData = [];
 var alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
 var userAnswerList = [];
+// EndRegion 
 
 //Region HTML element creation
 var cardBody = document.querySelector(".card-body");
@@ -149,11 +150,10 @@ toastDiv.setAttribute("class", "toast mt-3");
 var toastBodyDiv = document.createElement("div");
 toastBodyDiv.setAttribute("class", "toast-body");
 toastDiv.appendChild(toastBodyDiv);
-
 // End region 
 
+// Region create a progressbar 
 progressDiv.setAttribute("class", "progress");
-
 var progressBarDiv = document.createElement("div");
 progressBarDiv.setAttribute("class", "progress-bar bg-success");
 progressBarDiv.setAttribute("role", "progressbar");
@@ -202,21 +202,16 @@ startQuizButton.addEventListener('click', function () {
 
 // Next button event listener 
 nextButton.addEventListener('click', function () {
-    console.log(selectedQuizOption);
-    console.log(correctQuizOption);
-
     userAnswerList.push(selectedQuizOption);
 
     if (selectedQuizOption == correctQuizOption) {
+        console.log(selectedQuizOption);
         score++;
-        console.log(`Correct answer ${score}`);
     } else {
-        console.log("Wrong answer");
-        console.log(`Wrong answer ${TotalTime}`);
+      
         if (TotalTime > 9) {
             TotalTime = TotalTime - 10;
         }
-        console.log(`Wrong answer ${TotalTime}`);
     }
 
     if (TotalTime <= 0 || TotalTime <= 9 || quizQuestionIndex == 9) {
@@ -257,13 +252,13 @@ function createAndDisplayQuizOptions(quizOption, correctOption, divCount) {
 
     alertDiv.setAttribute("id", `alertDiv${divCount}`);
     alertDiv.setAttribute("onclick", "clickFunction(this.id)");
-    console.log(divCount);
     alertDiv.textContent = quizOption;
     colDiv.appendChild(alertDiv);
     addQuizOptionsClickListener(alertDiv, quizOption, correctOption);
 }
 // End region 
 
+// Region quiz option click function 
 function clickFunction(alertDivid) {
 
     var alertDiv = document.getElementById(alertDivid);
@@ -283,21 +278,15 @@ function clickFunction(alertDivid) {
         var alertDiv = document.querySelector(`#${element}`);
         alertDiv.setAttribute("class", "alert alert-primary");
     });
-    console.log(selectedQuizOption);
-    console.log(correctQuizOption);
 }
+// End region 
 
 // Region quiz options click listener 
 function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
     alertDiv.addEventListener('click', function () {
         this.setAttribute("class", "alert alert-primary border border-primary");
 
-        console.log(alertDivList);
-
         alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
-
-        console.log(alertDiv);
-        console.log(alertDivList);
 
         var index = alertDivList.indexOf(this.id);
         if (index > -1) {
@@ -312,13 +301,7 @@ function addQuizOptionsClickListener(alertDiv, selectedOption, correctOption) {
         selectedQuizOption = selectedOption;
         correctQuizOption = correctOption;
 
-        console.log(selectedQuizOption);
-        console.log(correctQuizOption);
-
-        console.log(alertDivList);
-
     }, { once: true })
-
 }
 // End region 
 
@@ -331,14 +314,9 @@ function displayNextQuestion() {
 
     var optionArray = [optionPos0, optionPos1, optionPos2, optionPos3];
 
-    // resetAlertDivBorderOfSelectedOption();
-
-    console.log(optionArray[i]);
-
     ++quizQuestionIndex;
 
     for (var i = 0; i < quizObj[quizQuestionIndex].options.length; i++) {
-        console.log(quizQuestionIndex);
         questionPTag.textContent = quizObj[quizQuestionIndex].question;
 
         optionArray[i].textContent = quizObj[quizQuestionIndex].options[i];
@@ -349,16 +327,7 @@ function displayNextQuestion() {
 }
 // End region 
 
-// function resetAlertDivBorderOfSelectedOption() {
-
-//     alertDivList = ["alertDiv0", "alertDiv1", "alertDiv2", "alertDiv3"];
-
-//     alertDivList.forEach(element => {
-//         var alertDiv = document.querySelector(`#${element}`);
-//         alertDiv.style.pointerEvents = 'auto';
-//     });
-// }
-
+// Region create summary page 
 function createAndDisplayQuizSummaryPage() {
     cardBody.removeChild(timerLabel);
     cardBody.removeChild(questionPTag);
@@ -366,32 +335,44 @@ function createAndDisplayQuizSummaryPage() {
     cardBody.removeChild(rowDiv)
     cardBody.removeChild(nextButton);
 
-
     setProgressPercentage();
 
     progressDiv.appendChild(progressBarDiv);
     cardBody.appendChild(progressDiv);
 }
+// End region 
 
+// Region set up progress div and display progress bar percentage 
 function setProgressPercentage() {
     var percentage = 0;
-    if (score != 0) {
-        percentage = (score / 10) * 100;
-        console.log(percentage);
+    percentage = score * 10;
+    console.log(score);
+    
+    var emptyCount = 0;
+
+    userAnswerList.forEach(element => {
+        if (element == "") {
+            emptyCount++;
+        }
+    });
+
+    if (emptyCount == quizContent.length) {
+    progressBarDiv.setAttribute("style", `width: 0%`);
+    progressBarDiv.setAttribute("aria-valuenow", `0`);
+    progressBarDiv.setAttribute("font-weight","bold");
+    progressBarDiv.setAttribute("color"," black");
+    progressBarDiv.textContent = `0%`;
+    } else{
         progressBarDiv.setAttribute("style", `width: ${percentage}%`);
         progressBarDiv.setAttribute("aria-valuenow", `${percentage}`);
+        progressBarDiv.setAttribute("font-weight","bold");
         progressBarDiv.textContent = `${percentage}%`;
-    } else {
-        console.log(percentage);
-        progressBarDiv.setAttribute("style", `width: 100%`);
-        progressBarDiv.setAttribute("aria-valuenow", `0`);
-        progressBarDiv.textContent = `0%`;
     }
-
 }
+// End region 
 
+// region create and display quiz summary page 
 function createAndDisplayQuizSummaryPage() {
-
     removeQuizhtmlElements();
 
     displayQuizSummarryData();
@@ -408,17 +389,9 @@ function createAndDisplayQuizSummaryPage() {
     var resultPer = setProgressPercentage();
     displayScoreData(resultPer);
 }
+// End region 
 
-function setProgressPercentage() {
-    var percentage = 0;
-    percentage = score * 10;
-    console.log(percentage);
-    progressBarDiv.setAttribute("style", `width: ${percentage}%`);
-    progressBarDiv.setAttribute("aria-valuenow", `${percentage}`);
-    progressBarDiv.textContent = `${percentage}%`;
-    return percentage;
-}
-
+// Region remove all child element from the cardBody div to display quiz summary 
 function removeQuizhtmlElements() {
     cardBody.removeChild(timerLabel);
     cardBody.removeChild(questionPTag);
@@ -426,7 +399,9 @@ function removeQuizhtmlElements() {
     cardBody.removeChild(rowDiv)
     cardBody.removeChild(nextButton);
 }
+// End region 
 
+// Region display score result 
 function displayScoreData(resultPer) {
     quizStatus.textContent = "";
     if (resultPer < 50) {
@@ -446,7 +421,9 @@ function displayQuizSummarryData() {
     cardBody.appendChild(totalPercent);
     cardBody.appendChild(passPercent);
 }
+// End region 
 
+// Region add retake quizContent, review results, and submit score buttons 
 function addButtonsDiv() {
     var buttonsDiv = document.createElement("div");
     buttonsDiv.setAttribute("class", "white-bg");
@@ -458,7 +435,7 @@ function addButtonsDiv() {
 
     var reviewResults = document.createElement("button");
     reviewResults.setAttribute("class", "custom-button");
-    reviewResults.textContent = "Review Result";
+    reviewResults.textContent = "Review Results";
     addReviewResultsEventListner(reviewResults);
 
     buttonsDiv.appendChild(retakeQuiz);
@@ -467,6 +444,7 @@ function addButtonsDiv() {
     cardBody.appendChild(br);
     cardBody.appendChild(buttonsDiv);
 }
+// End region 
 
 function addSubmitButtonDiv() {
     var buttonsDiv = document.createElement("div");
@@ -553,7 +531,7 @@ function addReviewResultsEventListner(reviewResults) {
 
         if (emptyCount == quizContent.length) {
             var emptyText = document.createElement("p");
-            emptyText.textContent = "To review results please select one of the options of quiz questions provided!"
+            emptyText.textContent = "Please complete quiz to review results!"
             cardBody.appendChild(emptyText);
 
         } else {
