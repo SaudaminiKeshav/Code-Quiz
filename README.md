@@ -48,23 +48,23 @@ You are required to submit the following for review:
 
 ## Code Quiz start page
 <img src="Assets/Start_Quiz_Page.jpg" width="600">
-<img src="Assets/image0.png" width="400">
+<img src="Assets/image0.png" height="400">
 
 ## Code Quiz questions page
 <img src="Assets/Quiz_Question_Page.png" width="600">
-<img src="Assets/image1.png" width="400">
+<img src="Assets/image1.png" height="400">
 
 ## Code Quiz score page
 <img src="Assets/Quiz_Score_Page.png" width="600">
-<img src="Assets/image3.png" width="400">
+<img src="Assets/image3.png" height="400">
 
 ## Code Quiz summary page
 <img src="Assets/Quiz_summary_page.png" width="600">
-<img src="Assets/image4.png" width="400">
+<img src="Assets/image4.png" height="400">
 
 ## Code Quiz highscore page
 <img src="Assets/Highscores_page.png" width="600">
-<img src="Assets/image5.png" width="400">
+<img src="Assets/image5.png" height="400">
 
 - - -
 © 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
