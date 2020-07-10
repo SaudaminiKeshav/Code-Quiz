@@ -41,5 +41,7 @@ You are required to submit the following for review:
 
 * The URL of the GitHub repository. Give the repository a unique name and include a README describing the project.
 
+### Video of the complete Code quiz web application
+![code quiz](https://media.giphy.com/media/dVcaZoyoxYVO2t6Cqi/giphy.gif)
 - - -
 © 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
