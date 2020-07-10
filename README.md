@@ -47,23 +47,23 @@ You are required to submit the following for review:
 ### Images of the completed responsive Code quiz web application on desktop and mobile device
 
 ## Code Quiz start page
-<img src="Assets/Start_Quiz_Page.jpg" width="400">
+<img src="Assets/Start_Quiz_Page.jpg" width="600">
 <img src="Assets/image0.png" width="400">
 
 ## Code Quiz questions page
-<img src="Assets/Quiz_Question_Page.png" width="400">
+<img src="Assets/Quiz_Question_Page.png" width="600">
 <img src="Assets/image1.png" width="400">
 
 ## Code Quiz score page
-<img src="Assets/Quiz_Score_Page.png" width="400">
+<img src="Assets/Quiz_Score_Page.png" width="600">
 <img src="Assets/image3.png" width="400">
 
 ## Code Quiz summary page
-<img src="Assets/Quiz_summary_page.png" width="400">
+<img src="Assets/Quiz_summary_page.png" width="600">
 <img src="Assets/image4.png" width="400">
 
 ## Code Quiz highscore page
-<img src="Assets/Highscores_page.png" width="400">
+<img src="Assets/Highscores_page.png" width="600">
 <img src="Assets/image5.png" width="400">
 
 - - -
