@@ -25,6 +25,9 @@ THEN the game is over
 WHEN the game is over
 THEN I can save my initials and score
 ```
+## Installation
+No prior installations required. Please click on the link below to use the application: 
+https://saudaminikeshav.github.io/Code-Quiz/
 
 The following animation demonstrates the application functionality:
 
